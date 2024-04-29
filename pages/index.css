@@ -1,0 +1,161 @@
+@import url(../vendor/fonts.css);
+
+.page {
+  background-color: black;
+  font-family: "Inter", Arial, Helvetica, sans-serif;
+  color: white;
+}
+
+.page__content {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.page__section {
+  max-width: 880px;
+  width: 100%;
+  position: relative;
+  margin: 0 auto;
+}
+
+.header {
+  margin-top: 45px;
+  border-bottom: solid #545454;
+  border: 70%;
+  border-width: 1px;
+}
+
+.header__logo {
+  max-width: 173px;
+  max-height: 33px;
+  margin-bottom: 41px;
+}
+
+.profile {
+  padding-top: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.profile__info {
+  display: grid;
+  grid-template-areas:
+    "name button"
+    "description description";
+  grid-template-columns: minmax(auto, 373px) auto;
+  grid-gap: 7px 18px;
+}
+
+.profile__name {
+  font-size: 42px;
+  line-height: 48px;
+  font-weight: 500;
+  max-width: 373px;
+  white-space: nowrap;
+  overflow: hidden;
+  margin: 0;
+  grid-area: name;
+}
+
+.profile__description {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  margin: 0;
+  grid-area: description;
+}
+
+.profile__edit-button {
+  background: transparent url(../images/edit-icon.svg) center no-repeat;
+  background-size: 10px 10px;
+  height: 24px;
+  width: 24px;
+  box-sizing: border-box;
+  border: solid white;
+  border-width: 1px;
+  grid-area: button;
+  align-self: center;
+}
+
+.profile__add-button {
+  background: transparent url(../images/add-icon.svg) center no-repeat;
+  width: 150px;
+  height: 50px;
+  margin-left: auto;
+  box-sizing: border-box;
+  border: solid white;
+  border-width: 2px;
+  border-radius: 2px;
+  padding: 0;
+}
+
+.profile__image {
+  height: 120px;
+  width: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-position: center;
+  margin-right: 24px;
+}
+
+.cards {
+  margin-top: 51px;
+}
+
+.card__list {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(auto-fit, 282px);
+  grid-gap: 20px 17px;
+  padding: 0;
+  margin: 0;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  list-style-type: none;
+  overflow: hidden;
+  max-width: 282px;
+  border-radius: 10px;
+}
+
+.card__image {
+  width: 282px;
+  height: 282px;
+}
+
+.card__description {
+  display: flex;
+  background-color: white;
+  color: black;
+  padding: 25px 20px 25px 20px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card__title {
+  margin: 0;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 29px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  padding: 0;
+}
+
+.card__like-button {
+  background: transparent url(../images/like-button-disabled.svg) center
+    no-repeat;
+  width: 21px;
+  height: 18px;
+  border: none;
+  transition: opacity 0.2s linear;
+}
+
+.card__like-button:hover {
+  opacity: 0.5;
+  cursor: pointer;
+}
