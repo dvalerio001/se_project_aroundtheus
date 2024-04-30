@@ -4,7 +4,7 @@
 
 - Grid Layout
 - Responsive Design with Desktop and Mobile Screens
-- Screen Media Queries
+- Screen Media Queries -[Link to video explains aspects on the project](https://drive.google.com/file/d/167HC0YvBTqKVQXqNNafROKd7PLy776A7/view?usp=drive_link)
 
 ### Overview
 
