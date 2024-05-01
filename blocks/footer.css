@@ -4,9 +4,7 @@
 }
 
 .footer__text {
-  width: 318px;
-  height: 18px;
-  font-family: "Inter", sans-serif;
+  line-height: 21.78px;
   margin: 0;
   font-weight: 400;
   font-size: 18px;
@@ -18,13 +16,11 @@
   .footer {
     margin: 48px 0px 36px;
     padding: 0px;
-
     width: auto;
-    font-size: 14px;
-    line-height: 16.94px;
   }
 
   .footer__text {
-    width: 282px;
+    font-size: 14px;
+    line-height: 16.94px;
   }
 }
