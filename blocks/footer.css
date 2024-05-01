@@ -9,12 +9,12 @@
   font-weight: 400;
   font-size: 18px;
   line-height: 21.78px;
-  color: #545454;
+  color: rgba(84, 84, 84);
 }
 
 @media screen and (max-width: 480px) {
   .footer {
-    margin: 48px 0px 36px;
+    margin: 48px 19px 36px;
     padding: 0px;
     width: auto;
   }
@@ -22,5 +22,6 @@
   .footer__text {
     font-size: 14px;
     line-height: 16.94px;
+    max-width: 282px;
   }
 }
