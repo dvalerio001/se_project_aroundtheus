@@ -6,14 +6,20 @@
   right: 0;
   z-index: 999;
   background-color: rgba(0, 0, 0, 0.5);
-  display: none;
+  visibility: hidden;
+  transition: visibility 0s 0.6s, opacity 0.3s linear;
+  opacity: 0;
   align-items: center;
   justify-content: center;
   padding: 19px;
+  display: flex;
 }
 
 .modal_opened {
-  display: flex;
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s, opacity 0.3s linear;
+  transition-delay: 0s;
 }
 
 .modal__container {
@@ -97,6 +103,29 @@
 .modal__button:hover {
   opacity: 0.8;
   cursor: pointer;
+}
+
+.modal__container-preview {
+  background: transparent;
+  display: flex;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  padding: 0;
+}
+
+.modal__preview-image {
+  max-width: 75vw;
+  max-height: 75vh;
+}
+
+.modal__preview-caption {
+  position: absolute;
+  bottom: -33px;
+  font-size: 12px;
+  line-height: 15px;
+  color: white;
+  margin: 0;
 }
 
 @media screen and (max-width: 620px) {

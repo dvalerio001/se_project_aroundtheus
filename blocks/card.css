@@ -4,6 +4,7 @@
   list-style-type: none;
   overflow: hidden;
   border-radius: 10px;
+  position: relative;
 }
 
 .card__image {
@@ -30,6 +31,25 @@
   padding: 0;
   margin: 0;
   max-width: 219px;
+}
+
+.card__delete-button {
+  background: transparent url(../images/trash-icon.svg) center no-repeat;
+  width: 18px;
+  height: 19.3px;
+  border: none;
+  position: absolute;
+  z-index: 1;
+  top: 18px;
+  right: 15px;
+  padding: 0;
+  margin: 0;
+  transition: opacity 0.3s linear;
+}
+
+.card__delete-button:hover {
+  opacity: 0.6;
+  cursor: pointer;
 }
 
 .card__like-button {

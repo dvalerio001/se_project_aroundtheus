@@ -103,10 +103,23 @@
         </form>
       </div>
     </div>
-
+    <!--Preview Card Modal-->
+    <div class="modal" id="preview-card-modal">
+      <div class="modal__container modal__container-preview">
+        <img src="" alt="" class="modal__preview-image" />
+        <p class="modal__preview-caption"></p>
+        <button
+          type="button"
+          class="modal__close"
+          id="modal-close-button"
+        ></button>
+      </div>
+    </div>
+    <!--Card Template-->
     <template id="card-template">
       <li class="card">
         <img src="" alt="" class="card__image" />
+        <button type="submit" class="card__delete-button"></button>
         <div class="card__description">
           <h2 class="card__title"></h2>
           <button type="button" class="card__like-button"></button>
