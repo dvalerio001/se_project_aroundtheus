@@ -104,9 +104,6 @@ function getCardElement(data) {
     cardElement.remove(); //delete card
   });
 
-  //add click listener to card image element
-  //openModal with the previewImageModal
-
   likeButton.addEventListener("click", () => {
     likeButton.classList.toggle("card__like-button_active"); //.toggle will remove the like when clicked again.
   });
