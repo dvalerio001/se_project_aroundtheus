@@ -64,12 +64,41 @@ const profileDescriptionInput = document.querySelector(
   "#profile-description-input"
 );
 
+function closePopUpClick(evt) {
+  if (evt.target === evt.currentTarget) {
+    closePopUp(evt.currentTarget);
+  }
+}
+
 function closePopUp(modal) {
   modal.classList.remove("modal_opened");
+  document.removeEventListener("keydown", escapeKeyListener);
+  modal.removeEventListener("mousedown", handleOverlay);
+  modal
+    .querySelector(".modal__close")
+    .removeEventListener("click", escapeKeyListener);
 }
 
 function openPopUp(modal) {
   modal.classList.add("modal_opened");
+  document.addEventListener("keydown", escapeKeyListener);
+  modal.addEventListener("mousedown", handleOverlay);
+  modal
+    .querySelector(".modal__close")
+    .addEventListener("click", escapeKeyListener);
+}
+
+function escapeKeyListener(evt) {
+  if (evt.key === "Escape") {
+    const openModal = document.querySelector(".modal_opened");
+    closePopUp(openModal);
+  }
+}
+
+function handleOverlay(evt) {
+  if (Array.from(evt.target.classList).includes("modal_opened")) {
+    closePopUp(evt.target);
+  }
 }
 
 function handleProfileEditSubmit(evt) {
