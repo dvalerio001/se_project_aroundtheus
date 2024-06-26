@@ -72,23 +72,23 @@ function closePopUpClick(evt) {
 
 function closePopUp(modal) {
   modal.classList.remove("modal_opened");
-  document.removeEventListener("keydown", escapeKeyListener);
+  document.removeEventListener("keydown", closeModalWithEscape);
   modal.removeEventListener("mousedown", handleOverlay);
   modal
     .querySelector(".modal__close")
-    .removeEventListener("click", escapeKeyListener);
+    .removeEventListener("click", closeModalWithEscape);
 }
 
 function openPopUp(modal) {
   modal.classList.add("modal_opened");
-  document.addEventListener("keydown", escapeKeyListener);
+  document.addEventListener("keydown", closeModalWithEscape);
   modal.addEventListener("mousedown", handleOverlay);
   modal
     .querySelector(".modal__close")
-    .addEventListener("click", escapeKeyListener);
+    .addEventListener("click", closeModalWithEscape);
 }
 
-function escapeKeyListener(evt) {
+function closeModalWithEscape(evt) {
   if (evt.key === "Escape") {
     const openModal = document.querySelector(".modal_opened");
     closePopUp(openModal);
@@ -119,8 +119,8 @@ function handleAddCardSubmit(evt) {
   const link = cardUrlInput.value;
   renderCard({ name, link }, cardListEl);
   closePopUp(addCardModal);
-  cardTitleInput.value = null;
-  cardUrlInput.value = null;
+  cardTitleInput.value = "";
+  cardUrlInput.value = "";
 }
 
 function getCardElement(data) {

@@ -100,9 +100,22 @@
   transition: opacity 0.3s linear;
 }
 
-.modal__button:hover {
+.modal__button:hover:not(:disabled) {
   opacity: 0.8;
   cursor: pointer;
+}
+
+.modal__button_disabled:hover {
+  opacity: 1;
+  cursor: default;
+}
+
+.modal__button_disabled {
+  background-color: white;
+  color: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  cursor: default;
+  border-radius: 2px;
 }
 
 .modal__container-preview {
@@ -126,14 +139,6 @@
   line-height: 15px;
   color: white;
   margin: 0;
-}
-
-.modal__button_disabled {
-  background-color: white;
-  color: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  cursor: default;
-  border-radius: 2px;
 }
 
 .modal__error {
