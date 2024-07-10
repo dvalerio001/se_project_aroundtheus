@@ -6,22 +6,27 @@ const initialCards = [
     name: "Yosemite Valley",
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/yosemite.jpg",
   },
+
   {
     name: "Lake Louise",
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/lake-louise.jpg",
   },
+
   {
     name: "Bald Mountains",
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/bald-mountains.jpg",
   },
+
   {
     name: "Latemar",
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/latemar.jpg",
   },
+
   {
     name: "Vanoise National Park",
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/vanoise.jpg",
   },
+
   {
     name: "Lago di Braies",
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/lago.jpg",
@@ -29,8 +34,10 @@ const initialCards = [
 ];
 
 //Edit Modal
+
 const profileEditModal = document.querySelector("#profile-edit-modal");
 const profileEditForm = document.forms["editProfileModal"];
+
 //Card Modal
 const cardListEl = document.querySelector(".cards__list");
 const cardTemplate =
@@ -41,6 +48,7 @@ const cardTitleInput = addCardForm.querySelector(".modal__input_type_title");
 const cardUrlInput = addCardForm.querySelector(".modal__input_type_url");
 
 //Preview Modal
+
 const previewCardModal = document.querySelector("#preview-card-modal");
 const previewCardImage = previewCardModal.querySelector(
   ".modal__preview-image"
@@ -50,6 +58,7 @@ const previewCardCaption = previewCardModal.querySelector(
 );
 
 //Buttons
+
 const profileEditButton = document.querySelector("#profile-edit-button");
 const profileEditCloseButton = profileEditModal.querySelector(".modal__close");
 const addNewCardButton = document.querySelector(".profile__add-button");
@@ -59,6 +68,7 @@ const previewCloseButton = previewCardModal.querySelector(
 );
 
 //Modal Inputs
+
 const profileTitle = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
 const profileTitleInput = document.querySelector("#profile-title-input");
@@ -78,13 +88,11 @@ const validationSettings = {
 };
 
 const formValidators = {};
-
 const enableValidation = (config) => {
   const formList = Array.from(document.querySelectorAll(config.formSelector));
   formList.forEach((formElement) => {
     const validator = new FormValidator(config, formElement);
     const formName = formElement.getAttribute("name");
-
     formValidators[formName] = validator;
     validator.enableValidation();
   });
@@ -164,10 +172,10 @@ profileEditForm.addEventListener("submit", handleProfileEditSubmit);
 initialCards.forEach((cardData) => renderCard(cardData));
 
 //add New Card
+
 addCardForm.addEventListener("submit", handleAddCardSubmit);
 addNewCardButton.addEventListener("click", () => openPopUp(addCardModal));
 const closeButtons = document.querySelectorAll(".modal__close");
-
 closeButtons.forEach((button) => {
   const modal = button.closest(".modal");
   button.addEventListener("click", () => closePopUp(modal));

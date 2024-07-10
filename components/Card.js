@@ -1,33 +1,25 @@
 export default class Card {
   constructor(data, cardSelector, handleImageClick) {
     this._data = data;
-    this._name = data.name;
+    this._name = data.name; // Assuming 'name' in your original data is 'title'
     this._link = data.link;
     this._cardSelector = cardSelector;
     this._handleImageClick = handleImageClick;
-    this._cardElement = cardSelector.cloneNode(true);
-    this._cardImageElement = this._cardElement.querySelector(".card__image");
-    this._cardNameEl = this._cardElement.querySelector(".card__description");
-    this._deleteButton = this._cardElement.querySelector(
-      ".card__delete-button"
-    );
-    this._likeButton = this._cardElement.querySelector(".card__like-button ");
   }
 
-  //private methods
-
+  // Private methods
   _setEventListeners() {
     this._cardImageElement.addEventListener("click", () => {
       this._handleImageClick(this._data);
     });
 
-    this._deleteButton.addEventListener("click", () =>
-      this._handleDeleteButton(this)
-    );
+    this._deleteButton.addEventListener("click", () => {
+      this._handleDeleteButton();
+    });
 
-    this._likeButton.addEventListener("click", () =>
-      this._handleLikeButton(this)
-    );
+    this._likeButton.addEventListener("click", () => {
+      this._handleLikeButton();
+    });
   }
 
   _handleDeleteButton() {
@@ -39,10 +31,33 @@ export default class Card {
     this._likeButton.classList.toggle("card__like-button_active");
   }
 
-  //public methods
+  // Public methods
   getCardElement() {
+    // Clone the card template and select the .card element
+    this._cardElement = document
+      .getElementById("card-template")
+      .content.cloneNode(true)
+      .querySelector(".card");
+
+    // Check if elements are found
+
+    this._cardImageElement = this._cardElement.querySelector(".card__image");
+    this._cardNameEl = this._cardElement.querySelector(".card__title");
+    this._deleteButton = this._cardElement.querySelector(
+      ".card__delete-button"
+    );
+    this._likeButton = this._cardElement.querySelector(".card__like-button");
+
+    // Check if elements are found
+
+    // Set image source and alt text
     this._cardImageElement.src = this._link;
+    this._cardImageElement.alt = `Photo of ${this._name}`;
+
+    // Set card name text content
     this._cardNameEl.textContent = this._name;
+
+    // Set event listeners after all elements are initialized
     this._setEventListeners();
 
     return this._cardElement;
