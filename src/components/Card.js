@@ -1,7 +1,7 @@
 export default class Card {
   constructor(data, cardSelector, handleImageClick) {
     this._data = data;
-    this._name = data.name; // Assuming 'name' in your original data is 'title'
+    this._name = data.name;
     this._link = data.link;
     this._cardSelector = cardSelector;
     this._handleImageClick = handleImageClick;
