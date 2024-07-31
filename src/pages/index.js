@@ -36,12 +36,17 @@ const cardListSection = new Section(
   {
     items: initialCards,
     renderer: (item) => {
-      const card = new Card(item, selectors.cardTemplate, handleCardClick);
-      cardListSection.addItem(card.getCardElement());
+      const card = createCard(item);
+      cardListSection.addItem(card);
     },
   },
   selectors.cardSection
 );
+
+function createCard(item) {
+  const card = new Card(item, selectors.cardTemplate, handleCardClick);
+  return card.getCardElement();
+}
 
 // Initialize Popups
 const imagePopup = new PopupWithImage(selectors.imageModal);
@@ -65,12 +70,18 @@ function handleCardClick(data) {
 }
 
 function handleProfileFormSubmit(formData) {
-  userInfo.setUserInfo(formData);
+  userInfo.setUserInfo({
+    name: formData.name,
+    description: formData.description,
+  });
+  editProfilePopup.close();
 }
 
 function handleAddCardFormSubmit(formData) {
-  const card = new Card(formData, selectors.cardTemplate, handleCardClick);
-  cardListSection.addItem(card.getCardElement());
+  const card = createCard(formData);
+  cardListSection.addItem(card);
+  addCardPopup.close();
+  document.querySelector(selectors.addCardModal).querySelector("form").reset();
 }
 
 // DOM elements
@@ -85,13 +96,15 @@ const profileDescriptionInput = document.querySelector(
 profileEditButton.addEventListener("click", () => {
   const currentUserInfo = userInfo.getUserInfo();
   profileTitleInput.value = currentUserInfo.name;
-  profileDescriptionInput.value = currentUserInfo.job;
-  formValidators["editProfileModal"].resetValidation();
+  profileDescriptionInput.value = currentUserInfo.description;
+
+  // Reset the form validation state
+  formValidators["editProfileModal"].resetForm();
   editProfilePopup.open();
 });
 
 addNewCardButton.addEventListener("click", () => {
-  formValidators["addCardModal"].resetValidation();
+  formValidators["addCardModal"].resetForm();
   addCardPopup.open();
 });
 

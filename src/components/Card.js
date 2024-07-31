@@ -35,20 +35,17 @@ export default class Card {
   getCardElement() {
     // Clone the card template and select the .card element
     this._cardElement = document
-      .getElementById("card-template")
+      .querySelector(this._cardSelector)
       .content.cloneNode(true)
       .querySelector(".card");
 
     // Check if elements are found
-
     this._cardImageElement = this._cardElement.querySelector(".card__image");
     this._cardNameEl = this._cardElement.querySelector(".card__title");
     this._deleteButton = this._cardElement.querySelector(
       ".card__delete-button"
     );
     this._likeButton = this._cardElement.querySelector(".card__like-button");
-
-    // Check if elements are found
 
     // Set image source and alt text
     this._cardImageElement.src = this._link;
