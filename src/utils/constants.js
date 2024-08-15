@@ -47,5 +47,6 @@ export const selectors = {
   profileTitle: ".profile__title",
   profileDescription: ".profile__description",
   avatarEditModal: "#avatar-edit-modal",
+  deleteCardModal: "#delete-card-modal",
   avatarEditButton: ".profile__image-edit-button",
 };

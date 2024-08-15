@@ -9,10 +9,10 @@ export default class Card {
   }) {
     this._name = data.name;
     this._link = data.link;
-    this._likes = data.likes || [];
     this._id = data._id;
-    this._ownerId = data.owner ? data.owner._id : null;
+    this._ownerId = data.owner;
     this._userId = userId;
+    this._isLiked = data.isLiked;
     this._cardSelector = cardSelector;
     this._handleCardClick = handleCardClick;
     this._handleLikeClick = handleLikeClick;
@@ -45,19 +45,20 @@ export default class Card {
   }
 
   isLiked() {
-    return this._likes.some((user) => user._id === this._userId);
+    return this._isLiked;
   }
 
-  updateLikes(newLikes) {
-    this._likes = newLikes;
+  updateLikes(newCardData) {
+    if (newCardData.isLiked !== undefined) {
+      this._isLiked = newCardData.isLiked;
+    } else {
+      console.error("Invalid likes data:", newCardData);
+    }
     this._renderLikes();
   }
 
   _renderLikes() {
-    if (this._likeCounter) {
-      this._likeCounter.textContent = this._likes.length;
-    }
-    if (this.isLiked()) {
+    if (this._isLiked) {
       this._likeButton.classList.add("card__like-button_active");
     } else {
       this._likeButton.classList.remove("card__like-button_active");
@@ -73,7 +74,6 @@ export default class Card {
     this._element = this._getTemplate();
     this._likeButton = this._element.querySelector(".card__like-button");
     this._deleteButton = this._element.querySelector(".card__delete-button");
-    this._likeCounter = this._element.querySelector(".card__like-counter");
     const cardImage = this._element.querySelector(".card__image");
     const cardTitle = this._element.querySelector(".card__title");
 

@@ -92,6 +92,7 @@
         </form>
       </div>
     </div>
+    <!--Edit Avatar Modal-->
     <div class="modal" id="avatar-edit-modal">
       <div class="modal__container">
         <button
@@ -169,16 +170,19 @@
         ></button>
       </div>
     </div>
+    <!--Delete Card Modal-->
     <div class="modal" id="delete-card-modal">
-      <div class="modal__container">
+      <div class="modal__container modal__container-delete">
         <button
           type="button"
           class="modal__close"
-          id="modal-close-button"
+          id="delete-card-modal-closed"
         ></button>
-        <p class="modal__heading">Are you sure?</p>
-        <form class="modal__form" name="deleteCardForm" id="delete-card-form">
-          <button type="submit" class="modal__button">Yes</button>
+        <h3 class="modal__heading modal__heading_type_delete">Are you sure?</h3>
+        <form class="modal__form" novalidate>
+          <button type="submit" class="modal__button modal__button_type_delete">
+            Yes
+          </button>
         </form>
       </div>
     </div>
@@ -195,7 +199,6 @@
               type="button"
               id="card-like-button"
             ></button>
-            <span class="card__like-count">0</span>
           </div>
         </div>
       </li>

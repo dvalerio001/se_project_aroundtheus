@@ -99,6 +99,11 @@
   border-radius: 2px;
   transition: opacity 0.3s linear;
 }
+.modal__button:not(:disabled) {
+  background-color: #000;
+  color: #fff;
+  border: none;
+}
 
 .modal__button:hover:not(:disabled) {
   opacity: 0.8;
@@ -161,6 +166,27 @@
   border-bottom: 1px solid #ff0000;
 }
 
+.modal__container-delete {
+  max-height: 181px;
+  padding: 34px 36px 36px;
+}
+
+.modal__heading_type_delete {
+  padding-bottom: 38px;
+  margin: 0;
+}
+
+.modal__button_type_delete {
+  margin-top: 0;
+}
+
+.modal__form_type-delete {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 20px 36px 36px;
+  padding: 0;
+}
 @media screen and (max-width: 620px) {
   .modal__close {
     width: 26px;

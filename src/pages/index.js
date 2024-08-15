@@ -9,6 +9,8 @@ import Api from "../components/Api.js";
 import { validationSettings, selectors } from "../utils/constants.js";
 import "../pages/index.css";
 
+console.log("Script started");
+
 const api = new Api({
   baseUrl: "https://around-api.en.tripleten-services.com/v1",
   headers: {
@@ -16,6 +18,8 @@ const api = new Api({
     "Content-Type": "application/json",
   },
 });
+
+console.log("API initialized");
 
 // Initialize form validators
 const formValidators = {};
@@ -30,6 +34,7 @@ const enableValidation = (config) => {
 };
 
 enableValidation(validationSettings);
+console.log("Form validation enabled");
 
 // Initialize UserInfo
 const userInfo = new UserInfo({
@@ -37,6 +42,8 @@ const userInfo = new UserInfo({
   descriptionSelector: selectors.profileDescription,
   avatarSelector: ".profile__image",
 });
+
+console.log("UserInfo initialized");
 
 // Initialize Section for cards
 let cardSection;
@@ -50,26 +57,42 @@ function createCard(cardData) {
       imagePopup.open(data);
     },
     handleLikeClick: (cardId, isLiked) => {
+      console.log(
+        `Like clicked for card ${cardId}. Currently liked: ${isLiked}`
+      );
       const likeMethod = isLiked
         ? api.unlikeCard.bind(api)
         : api.likeCard.bind(api);
 
       likeMethod(cardId)
         .then((newCardData) => {
-          card.updateLikes(newCardData.likes);
+          console.log("New card data after like/unlike:", newCardData);
+          card.updateLikes(newCardData);
         })
         .catch((err) => console.error("Error updating like:", err));
     },
     handleDeleteClick: (cardId) => {
+      console.log("Delete clicked", cardId);
       deleteCardPopup.open();
+
+      const deleteButton = deleteCardPopup._submitButton;
+      if (deleteButton) {
+        deleteButton.disabled = false;
+        deleteButton.classList.remove("modal__button_disabled");
+      }
+
       deleteCardPopup.setAction(() => {
+        deleteCardPopup.renderLoading(true);
         api
           .deleteCard(cardId)
           .then(() => {
             card.deleteCard();
             deleteCardPopup.close();
           })
-          .catch((err) => console.error("Error deleting card:", err));
+          .catch((err) => console.error("Error deleting card:", err))
+          .finally(() => {
+            deleteCardPopup.renderLoading(false);
+          });
       });
     },
     userId: userId,
@@ -78,10 +101,12 @@ function createCard(cardData) {
 }
 
 function handleProfileFormSubmit(formData) {
+  console.log("Profile form submitted", formData);
   editProfilePopup.renderLoading(true);
   api
     .editProfile(formData.name, formData.description)
     .then((updatedUser) => {
+      console.log("Profile updated", updatedUser);
       userInfo.setUserInfo({
         name: updatedUser.name,
         description: updatedUser.about,
@@ -98,10 +123,12 @@ function handleProfileFormSubmit(formData) {
 }
 
 function handleAvatarFormSubmit(formData) {
+  console.log("Avatar form submitted", formData);
   avatarEditPopup.renderLoading(true);
   api
     .setUserAvatar(formData.avatar)
     .then((userData) => {
+      console.log("Avatar updated", userData);
       userInfo.setUserInfo({
         name: userData.name,
         description: userData.about,
@@ -118,13 +145,16 @@ function handleAvatarFormSubmit(formData) {
 }
 
 function handleAddCardFormSubmit(formData) {
+  console.log("Add card form submitted", formData);
   addCardPopup.renderLoading(true);
   api
     .addCard(formData.name, formData.link)
     .then((newCard) => {
+      console.log("New card added", newCard);
       const cardElement = createCard(newCard);
       cardSection.addItem(cardElement);
       addCardPopup.close();
+      addCardPopup.resetForm(); // Reset the form only after successful submission
     })
     .catch((err) => {
       console.error("Add card error:", err);
@@ -144,19 +174,25 @@ const addCardPopup = new PopupWithForm(
   selectors.addCardModal,
   handleAddCardFormSubmit
 );
-
 const avatarEditPopup = new PopupWithForm(
   selectors.avatarEditModal,
   handleAvatarFormSubmit
 );
 const deleteCardPopup = new PopupWithConfirm(selectors.deleteCardModal);
 
+console.log("Popups initialized");
+
 // Set up event listeners for popups
 imagePopup.setEventListeners();
 editProfilePopup.setEventListeners();
 addCardPopup.setEventListeners();
 avatarEditPopup.setEventListeners();
-deleteCardPopup.setEventListeners();
+if (deleteCardPopup._popup) {
+  deleteCardPopup.setEventListeners();
+} else {
+  console.warn("Delete card popup could not be initialized.");
+}
+console.log("Popup event listeners set");
 
 // DOM elements
 const profileEditButton = document.querySelector(selectors.profileEditButton);
@@ -167,9 +203,12 @@ const profileDescriptionInput = document.querySelector(
 );
 const avatarEditButton = document.querySelector(selectors.avatarEditButton);
 
+console.log("DOM elements selected");
+
 // Event listeners
 if (profileEditButton) {
   profileEditButton.addEventListener("click", () => {
+    console.log("Profile edit button clicked");
     const currentUserInfo = userInfo.getUserInfo();
     profileTitleInput.value = currentUserInfo.name;
     profileDescriptionInput.value = currentUserInfo.description;
@@ -185,6 +224,7 @@ if (profileEditButton) {
 
 if (addNewCardButton) {
   addNewCardButton.addEventListener("click", () => {
+    console.log("Add new card button clicked");
     if (formValidators["add-card-form"]) {
       formValidators["add-card-form"].resetValidation();
     }
@@ -196,6 +236,7 @@ if (addNewCardButton) {
 
 if (avatarEditButton) {
   avatarEditButton.addEventListener("click", () => {
+    console.log("Avatar edit button clicked");
     if (formValidators["avatar-edit-form"]) {
       formValidators["avatar-edit-form"].resetValidation();
     }
@@ -205,10 +246,13 @@ if (avatarEditButton) {
   console.warn("Avatar edit button not found.");
 }
 
-// Load initial data
+console.log("Event listeners added");
+
+// Load data
 api
   .getAppInfo()
   .then(([cardData, userData]) => {
+    console.log("Initial data loaded", { cardData, userData });
     userId = userData._id;
     userInfo.setUserInfo({
       name: userData.name,
@@ -227,7 +271,10 @@ api
       selectors.cardSection
     );
     cardSection.renderItems();
+    console.log("Cards rendered");
   })
   .catch((err) => {
     console.error("Error loading initial data:", err);
   });
+
+console.log("Script finished");
