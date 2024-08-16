@@ -5,6 +5,9 @@ export default class PopupWithConfirm extends Popup {
     super(popupSelector);
     this._form = this._popup.querySelector(".modal__form");
     this._submitButton = this._form.querySelector(".modal__button");
+    this._defaultButtonText = this._submitButton
+      ? this._submitButton.textContent
+      : "Yes";
   }
 
   setAction(action) {
@@ -23,8 +26,6 @@ export default class PopupWithConfirm extends Popup {
     super.open();
     if (this._submitButton) {
       this._submitButton.textContent = "Yes";
-      this._submitButton.disabled = false;
-      this._submitButton.classList.remove("modal__button_disabled");
     }
   }
 

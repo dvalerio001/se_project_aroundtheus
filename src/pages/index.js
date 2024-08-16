@@ -25,9 +25,11 @@ console.log("API initialized");
 const formValidators = {};
 const enableValidation = (config) => {
   const formList = Array.from(document.querySelectorAll(config.formSelector));
+  console.log("Forms found:", formList.length);
   formList.forEach((formElement) => {
     const validator = new FormValidator(config, formElement);
     const formName = formElement.getAttribute("name");
+    console.log("Registering validator for form:", formName);
     formValidators[formName] = validator;
     validator.enableValidation();
   });
@@ -74,15 +76,9 @@ function createCard(cardData) {
     handleDeleteClick: (cardId) => {
       console.log("Delete clicked", cardId);
       deleteCardPopup.open();
-
-      const deleteButton = deleteCardPopup._submitButton;
-      if (deleteButton) {
-        deleteButton.disabled = false;
-        deleteButton.classList.remove("modal__button_disabled");
-      }
-
       deleteCardPopup.setAction(() => {
         deleteCardPopup.renderLoading(true);
+        formValidators["delete-card-form"].toggleButtonState();
         api
           .deleteCard(cardId)
           .then(() => {
@@ -92,6 +88,11 @@ function createCard(cardData) {
           .catch((err) => console.error("Error deleting card:", err))
           .finally(() => {
             deleteCardPopup.renderLoading(false);
+            formValidators["delete-card-form"].toggleButtonState();
+            if (deleteCardPopup._submitButton) {
+              deleteCardPopup._submitButton.textContent =
+                deleteCardPopup._defaultButtonText;
+            }
           });
       });
     },
@@ -103,6 +104,10 @@ function createCard(cardData) {
 function handleProfileFormSubmit(formData) {
   console.log("Profile form submitted", formData);
   editProfilePopup.renderLoading(true);
+  const formValidator = formValidators["profile-edit-modal"];
+  if (formValidator) {
+    formValidator.toggleButtonState();
+  }
   api
     .editProfile(formData.name, formData.description)
     .then((updatedUser) => {
@@ -119,12 +124,18 @@ function handleProfileFormSubmit(formData) {
     })
     .finally(() => {
       editProfilePopup.renderLoading(false);
+      formValidators["profile-form"].toggleButtonState();
+      editProfilePopup.resetButtonText();
     });
 }
 
 function handleAvatarFormSubmit(formData) {
   console.log("Avatar form submitted", formData);
   avatarEditPopup.renderLoading(true);
+  const formValidator = formValidators["avatar-edit-modal"];
+  if (formValidator) {
+    formValidator.toggleButtonState();
+  }
   api
     .setUserAvatar(formData.avatar)
     .then((userData) => {
@@ -141,12 +152,18 @@ function handleAvatarFormSubmit(formData) {
     })
     .finally(() => {
       avatarEditPopup.renderLoading(false);
+      formValidators["avatar-edit-form"].toggleButtonState();
+      avatarEditPopup.resetButtonText();
     });
 }
 
 function handleAddCardFormSubmit(formData) {
   console.log("Add card form submitted", formData);
   addCardPopup.renderLoading(true);
+  const formValidator = formValidators["add-card-modal"];
+  if (formValidator) {
+    formValidator.toggleButtonState();
+  }
   api
     .addCard(formData.name, formData.link)
     .then((newCard) => {
@@ -161,6 +178,8 @@ function handleAddCardFormSubmit(formData) {
     })
     .finally(() => {
       addCardPopup.renderLoading(false);
+      formValidators["add-card-form"].toggleButtonState();
+      addCardPopup.resetButtonText();
     });
 }
 
@@ -212,9 +231,11 @@ if (profileEditButton) {
     const currentUserInfo = userInfo.getUserInfo();
     profileTitleInput.value = currentUserInfo.name;
     profileDescriptionInput.value = currentUserInfo.description;
-
-    if (formValidators["profile-form"]) {
-      formValidators["profile-form"].resetValidation();
+    const formValidator = formValidators["profile-edit-modal"];
+    if (formValidator) {
+      formValidator.resetForm();
+    } else {
+      console.warn("Form validator for profile-edit-modal not found");
     }
     editProfilePopup.open();
   });
@@ -225,8 +246,11 @@ if (profileEditButton) {
 if (addNewCardButton) {
   addNewCardButton.addEventListener("click", () => {
     console.log("Add new card button clicked");
-    if (formValidators["add-card-form"]) {
-      formValidators["add-card-form"].resetValidation();
+    const formValidator = formValidators["add-card-modal"];
+    if (formValidator) {
+      formValidator.resetForm();
+    } else {
+      console.warn("Form validator for add-card-modal not found");
     }
     addCardPopup.open();
   });
@@ -237,8 +261,11 @@ if (addNewCardButton) {
 if (avatarEditButton) {
   avatarEditButton.addEventListener("click", () => {
     console.log("Avatar edit button clicked");
-    if (formValidators["avatar-edit-form"]) {
-      formValidators["avatar-edit-form"].resetValidation();
+    const formValidator = formValidators["avatar-edit-modal"];
+    if (formValidator) {
+      formValidator.resetForm();
+    } else {
+      console.warn("Form validator for avatar-edit-modal not found");
     }
     avatarEditPopup.open();
   });
