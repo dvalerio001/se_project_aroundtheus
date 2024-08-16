@@ -78,7 +78,6 @@ function createCard(cardData) {
       deleteCardPopup.open();
       deleteCardPopup.setAction(() => {
         deleteCardPopup.renderLoading(true);
-        formValidators["delete-card-form"].toggleButtonState();
         api
           .deleteCard(cardId)
           .then(() => {
@@ -88,11 +87,7 @@ function createCard(cardData) {
           .catch((err) => console.error("Error deleting card:", err))
           .finally(() => {
             deleteCardPopup.renderLoading(false);
-            formValidators["delete-card-form"].toggleButtonState();
-            if (deleteCardPopup._submitButton) {
-              deleteCardPopup._submitButton.textContent =
-                deleteCardPopup._defaultButtonText;
-            }
+            deleteCardPopup.resetButtonText();
           });
       });
     },
@@ -124,7 +119,7 @@ function handleProfileFormSubmit(formData) {
     })
     .finally(() => {
       editProfilePopup.renderLoading(false);
-      formValidators["profile-form"].toggleButtonState();
+      formValidators["profile-edit-modal"].toggleButtonState();
       editProfilePopup.resetButtonText();
     });
 }
@@ -152,7 +147,7 @@ function handleAvatarFormSubmit(formData) {
     })
     .finally(() => {
       avatarEditPopup.renderLoading(false);
-      formValidators["avatar-edit-form"].toggleButtonState();
+      formValidators["avatar-edit-modal"].toggleButtonState();
       avatarEditPopup.resetButtonText();
     });
 }
@@ -178,7 +173,7 @@ function handleAddCardFormSubmit(formData) {
     })
     .finally(() => {
       addCardPopup.renderLoading(false);
-      formValidators["add-card-form"].toggleButtonState();
+      formValidators["add-card-modal"].toggleButtonState();
       addCardPopup.resetButtonText();
     });
 }
@@ -198,6 +193,24 @@ const avatarEditPopup = new PopupWithForm(
   handleAvatarFormSubmit
 );
 const deleteCardPopup = new PopupWithConfirm(selectors.deleteCardModal);
+
+deleteCardPopup.setFormResetCallback(() => {
+  const formValidator = formValidators[selectors.deleteCardModal.slice(1)];
+  if (formValidator) {
+    formValidator.resetForm();
+  }
+});
+
+deleteCardPopup.setButtonStateToggleCallback((isLoading) => {
+  const formValidator = formValidators[selectors.deleteCardModal.slice(1)];
+  if (formValidator) {
+    if (isLoading) {
+      formValidator._disableButton();
+    } else {
+      formValidator._enableButton();
+    }
+  }
+});
 
 console.log("Popups initialized");
 
