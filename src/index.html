@@ -22,11 +22,14 @@
       </header>
       <main class="content">
         <section class="profile page__section">
-          <img
-            src="<%=require('./images/jacques-cousteau.png')%>"
-            alt="Profile Photo"
-            class="profile__image"
-          />
+          <div class="profile__image-container">
+            <img
+              src="<%=require('./images/jacques-cousteau.png')%>"
+              alt="Profile Photo"
+              class="profile__image"
+            />
+            <button type="button" class="profile__image-edit-button"></button>
+          </div>
           <div class="profile__info">
             <h1 class="profile__title">Jacques Cousteau</h1>
             <button
@@ -57,7 +60,7 @@
         <p class="modal__heading">Edit profile</p>
         <form
           class="modal__form"
-          name="editProfileModal"
+          name="profile-edit-modal"
           id="edit-profile-form"
         >
           <input
@@ -89,6 +92,33 @@
         </form>
       </div>
     </div>
+    <!--Edit Avatar Modal-->
+    <div class="modal" id="avatar-edit-modal">
+      <div class="modal__container">
+        <button
+          type="button"
+          class="modal__close"
+          id="modal-close-button"
+        ></button>
+        <p class="modal__heading">Change profile picture</p>
+        <form
+          class="modal__form"
+          name="avatar-edit-modal"
+          id="avatar-edit-form"
+        >
+          <input
+            type="url"
+            name="avatar"
+            placeholder="Image link"
+            class="modal__input"
+            id="avatar-url-input"
+            required
+          />
+          <span class="modal__error" id="avatar-url-input-error"></span>
+          <button type="submit" class="modal__button">Save</button>
+        </form>
+      </div>
+    </div>
     <!--Add Card Modal-->
     <div class="modal" id="add-card-modal">
       <div class="modal__container">
@@ -98,7 +128,7 @@
           id="modal-close-button"
         ></button>
         <p class="modal__heading">New Place</p>
-        <form class="modal__form" name="addCardModal" id="add-card-form">
+        <form class="modal__form" name="add-card-modal" id="add-card-form">
           <input
             type="text"
             name="name"
@@ -144,18 +174,36 @@
         ></button>
       </div>
     </div>
+    <!--Delete Card Modal-->
+    <div class="modal" id="delete-card-modal">
+      <div class="modal__container modal__container-delete">
+        <button
+          type="button"
+          class="modal__close"
+          id="delete-card-modal-closed"
+        ></button>
+        <h3 class="modal__heading modal__heading_type_delete">Are you sure?</h3>
+        <form class="modal__form" name="delete-card-modal" novalidate>
+          <button type="submit" class="modal__button modal__button_type_delete">
+            Yes
+          </button>
+        </form>
+      </div>
+    </div>
     <!--Card Template-->
     <template id="card-template">
       <li class="card">
         <img src="" alt="" class="card__image" />
-        <button type="submit" class="card__delete-button"></button>
+        <button type="button" class="card__delete-button"></button>
         <div class="card__description">
           <h2 class="card__title"></h2>
-          <button
-            class="card__like-button"
-            type="button"
-            id="card-like-button"
-          ></button>
+          <div class="card__like-container">
+            <button
+              class="card__like-button"
+              type="button"
+              id="card-like-button"
+            ></button>
+          </div>
         </div>
       </li>
     </template>
