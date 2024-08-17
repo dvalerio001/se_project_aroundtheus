@@ -113,7 +113,6 @@ function handleProfileFormSubmit(formData) {
       console.error("Profile update error:", err);
     })
     .finally(() => {
-      editProfilePopup.renderLoading(false);
       editProfilePopup.resetButtonText();
     });
 }
@@ -136,7 +135,6 @@ function handleAvatarFormSubmit(formData) {
       console.error("Avatar update error:", err);
     })
     .finally(() => {
-      avatarEditPopup.renderLoading(false);
       avatarEditPopup.resetButtonText();
     });
 }
@@ -157,7 +155,6 @@ function handleAddCardFormSubmit(formData) {
       console.error("Add card error:", err);
     })
     .finally(() => {
-      addCardPopup.renderLoading(false);
       addCardPopup.resetButtonText();
     });
 }

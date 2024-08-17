@@ -220,4 +220,23 @@
     margin-top: 45px;
     padding: 14px 0;
   }
+
+  .modal__container-delete {
+    max-width: 282px;
+    max-height: 181px;
+    padding: 25px 22px;
+  }
+
+  .modal__heading_type_delete {
+    line-height: 22px;
+    max-width: 238px;
+    margin: 0;
+  }
+
+  .modal__button_type_delete {
+    font-size: 14px;
+    line-height: 17px;
+    margin-top: 0;
+    height: 46px;
+  }
 }
