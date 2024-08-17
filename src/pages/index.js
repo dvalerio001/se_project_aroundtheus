@@ -86,8 +86,7 @@ function createCard(cardData) {
           })
           .catch((err) => console.error("Error deleting card:", err))
           .finally(() => {
-            deleteCardPopup.renderLoading(false);
-            deleteCardPopup.resetButtonText();
+            deleteCardPopup.resetButtonState();
           });
       });
     },
@@ -99,10 +98,6 @@ function createCard(cardData) {
 function handleProfileFormSubmit(formData) {
   console.log("Profile form submitted", formData);
   editProfilePopup.renderLoading(true);
-  const formValidator = formValidators["profile-edit-modal"];
-  if (formValidator) {
-    formValidator.toggleButtonState();
-  }
   api
     .editProfile(formData.name, formData.description)
     .then((updatedUser) => {
@@ -119,7 +114,6 @@ function handleProfileFormSubmit(formData) {
     })
     .finally(() => {
       editProfilePopup.renderLoading(false);
-      formValidators["profile-edit-modal"].toggleButtonState();
       editProfilePopup.resetButtonText();
     });
 }
@@ -127,10 +121,6 @@ function handleProfileFormSubmit(formData) {
 function handleAvatarFormSubmit(formData) {
   console.log("Avatar form submitted", formData);
   avatarEditPopup.renderLoading(true);
-  const formValidator = formValidators["avatar-edit-modal"];
-  if (formValidator) {
-    formValidator.toggleButtonState();
-  }
   api
     .setUserAvatar(formData.avatar)
     .then((userData) => {
@@ -147,7 +137,6 @@ function handleAvatarFormSubmit(formData) {
     })
     .finally(() => {
       avatarEditPopup.renderLoading(false);
-      formValidators["avatar-edit-modal"].toggleButtonState();
       avatarEditPopup.resetButtonText();
     });
 }
@@ -155,10 +144,6 @@ function handleAvatarFormSubmit(formData) {
 function handleAddCardFormSubmit(formData) {
   console.log("Add card form submitted", formData);
   addCardPopup.renderLoading(true);
-  const formValidator = formValidators["add-card-modal"];
-  if (formValidator) {
-    formValidator.toggleButtonState();
-  }
   api
     .addCard(formData.name, formData.link)
     .then((newCard) => {
@@ -173,7 +158,6 @@ function handleAddCardFormSubmit(formData) {
     })
     .finally(() => {
       addCardPopup.renderLoading(false);
-      formValidators["add-card-modal"].toggleButtonState();
       addCardPopup.resetButtonText();
     });
 }
@@ -193,24 +177,6 @@ const avatarEditPopup = new PopupWithForm(
   handleAvatarFormSubmit
 );
 const deleteCardPopup = new PopupWithConfirm(selectors.deleteCardModal);
-
-deleteCardPopup.setFormResetCallback(() => {
-  const formValidator = formValidators[selectors.deleteCardModal.slice(1)];
-  if (formValidator) {
-    formValidator.resetForm();
-  }
-});
-
-deleteCardPopup.setButtonStateToggleCallback((isLoading) => {
-  const formValidator = formValidators[selectors.deleteCardModal.slice(1)];
-  if (formValidator) {
-    if (isLoading) {
-      formValidator._disableButton();
-    } else {
-      formValidator._enableButton();
-    }
-  }
-});
 
 console.log("Popups initialized");
 

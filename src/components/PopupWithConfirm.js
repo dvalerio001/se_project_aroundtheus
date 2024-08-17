@@ -22,42 +22,23 @@ export default class PopupWithConfirm extends Popup {
     });
   }
 
-  open() {
-    super.open();
+  renderLoading(isLoading, loadingText = "Deleting...") {
+    if (this._submitButton && isLoading) {
+      this._submitButton.textContent = loadingText;
+    }
+  }
+
+  resetButtonState() {
     if (this._submitButton) {
       this._submitButton.textContent = this._defaultButtonText;
       this._submitButton.disabled = false;
     }
-    if (this._resetForm) {
-      this._resetForm();
-    }
-    if (this._toggleButtonState) {
-      this._toggleButtonState(false);
-    }
   }
 
-  resetButtonText() {
+  open() {
+    super.open();
     if (this._submitButton) {
-      this._submitButton.textContent = this._defaultButtonText;
+      this._submitButton.disabled = false;
     }
-  }
-
-  renderLoading(isLoading, loadingText = "Deleting...") {
-    if (this._submitButton) {
-      this._submitButton.textContent = isLoading
-        ? loadingText
-        : this._defaultButtonText;
-    }
-    if (this._toggleButtonState) {
-      this._toggleButtonState(isLoading);
-    }
-  }
-
-  setFormResetCallback(callback) {
-    this._resetForm = callback;
-  }
-
-  setButtonStateToggleCallback(callback) {
-    this._toggleButtonState = callback;
   }
 }
